@@ -8,8 +8,7 @@ import config
 def db_send(player):
     # Creating connection object
     mydb = mysql.connector.connect(
-        host = config.dbRemoteIP,#server
-        #host="192.168.0.104",#local
+        host = config.dbRemoteIP,
         user = config.dbUsername,
         password = config.dbPassword,
         database = config.dbSchema
@@ -58,3 +57,5 @@ def db_send(player):
     player.battlesDraw, player.debrisMetal, player.debrisCrystal, player.unitsDestroyed, 
     player.unitsLost, datetime.now()))
     mydb.commit()
+    mydb.close()
+    

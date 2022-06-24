@@ -1,6 +1,7 @@
 CREATE TABLE alliances(
 	allianceId int,
     name varchar(255),
+    tag varchar(8),
     constraint pk_alliances primary key (allianceId)
 );
 
@@ -76,11 +77,38 @@ create table planets(
 	galaxy int,
     solarsystem int,
     position int,
-    moon bool,
     playerId int,
     CONSTRAINT PK_planets PRIMARY KEY (galaxy,solarsystem,position),
     CONSTRAINT FK_planetsPlayer FOREIGN KEY (playerId) 
     REFERENCES players(playerId)
 );
 
+create table moons(
+	galaxy int,
+	solarsystem int,
+    position int,
+    playerId int,
+    phalanxlvl int,
+    baselvl int,
+    robotlvl int,
+    jumpgate int,
+    CONSTRAINT PK_moons PRIMARY KEY (galaxy,solarsystem,position),
+    CONSTRAINT FK_moonsPlayer FOREIGN KEY (playerId) 
+    REFERENCES players(playerId)
+);
 
+create table coalitions(
+	allianceId int,
+    partnerAllianceId int,
+    wing bool DEFAULT false,
+    CONSTRAINT FKcoalitionsAlliancesStart FOREIGN KEY (allianceId)
+    REFERENCES alliances(allianceId),
+    CONSTRAINT FKcoalitionsAlliancesTarget FOREIGN KEY (partnerAllianceId)
+    REFERENCES alliances(allianceId),
+    CONSTRAINT PKcoalitions PRIMARY KEY (allianceId, partnerAllianceId)
+);
+
+create table updates(
+	channelId varchar(255),
+    CONSTRAINT PKcoalitions PRIMARY KEY (channelId)
+);

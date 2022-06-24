@@ -1,21 +1,6 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from bs4 import BeautifulSoup
-import time
-import json
+import urllib.request, json
 import player
 import db
-from urllib.request import urlopen
-options = webdriver.ChromeOptions()
-options.binary_location = "/opt/google/chrome/google-chrome"
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
-options.add_argument('--headless')
-options.add_argument("user-data-dir=~/.config/google-chrome")
-chrome_driver_binary = "/mnt/d/Coding/graalvm-ce-java11-21.2.0/chromedriver"
-browser = webdriver.Chrome(chrome_driver_binary, chrome_options=options)
-url = 'https://pr0game.com/stats.json'
-browser.get(url)
 
 def create_player(json_player):
     playerId = json_player["playerId"]
@@ -45,18 +30,11 @@ def create_player(json_player):
         fleetRank, fleetScore, battlesWon, battlesLost, battlesDraw, debrisMetal, debrisCrystal,
         unitsDestroyed, unitsLost)
     return data
-  
-# Give source code to BeautifulSoup
-result = browser.page_source
-#print(browser.page_source)
-soup = BeautifulSoup(browser.page_source, 'lxml')
-pre = soup.find('pre').contents[0]
-
-#print(pre)
-
-parsed_json = (json.loads(pre))
-for json_player in parsed_json:
-    data = create_player(json_player)
-    db.db_send(data)
 
 
+with urllib.request.urlopen("https://pr0game.com/stats.json") as url:
+    parsed_json = json.loads(url.read().decode())
+    for json_player in parsed_json:
+        data = create_player(json_player)
+        db.db_send(data)
+        #print(data.allianceName)
