@@ -8,7 +8,8 @@ import config
 def db_send(player):
     # Creating connection object
     mydb = mysql.connector.connect(
-        host = config.dbRemoteIP,
+        host = config.dbRemoteIP,#server
+        #host="192.168.0.104",#local
         user = config.dbUsername,
         password = config.dbPassword,
         database = config.dbSchema
@@ -25,7 +26,7 @@ def db_send(player):
     row_count = select_cursor.rowcount
     if row_count == 0:
         #print("new ally id, name: "+player.allianceId+", "+player.allianceName)
-        insert_cursor.execute("insert into alliances values (%s, %s);", (player.allianceId, player.allianceName))
+        insert_cursor.execute("insert into alliances (allianceId, name) values (%s, %s);", (player.allianceId, player.allianceName))
         mydb.commit()
 
     #check player
