@@ -37,4 +37,4 @@ with urllib.request.urlopen("https://pr0game.com/stats.json") as url:
     for json_player in parsed_json:
         data = create_player(json_player)
         db.db_send(data)
-        #print(data.allianceName)
+        #print(data.playerName)

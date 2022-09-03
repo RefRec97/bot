@@ -47,7 +47,7 @@ def db_send(player):
         for row in playerData:
             if(row[1] != player.playerName):
                 insert_cursor.execute("UPDATE players SET name= %s where playerId =%s;",(player.playerName, player.playerId))
-            if(row[2] != player.allianceId):
+            if(row[2] != int(player.allianceId)):
                 insert_cursor.execute("UPDATE players SET allianceId= %s where playerId =%s;",(player.allianceId, player.playerId))
         mydb.commit()
     
