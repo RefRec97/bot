@@ -22,7 +22,7 @@ def db_send(player):
     insert_cursor = mydb.cursor()
     
     #check ally
-    select_cursor.execute("select * from alliances where alliances.allianceId = "+player.allianceId)
+    select_cursor.execute("select * from alliances where alliances.allianceId = "+str(player.allianceId))
     row_count = select_cursor.rowcount
     if row_count == 0:
         #print("new ally id, name: "+player.allianceId+", "+player.allianceName)
@@ -30,7 +30,7 @@ def db_send(player):
         mydb.commit()
 
     #check player
-    select_cursor.execute("select * from players where players.playerid = "+player.playerId)
+    select_cursor.execute("select * from players where players.playerid = "+str(player.playerId))
 
     row_count = select_cursor.rowcount
     if row_count == 0:
@@ -42,7 +42,7 @@ def db_send(player):
         mydb.commit()
     #todo: else with overrides for playername and allianceid if they changed
     else:
-        select_cursor.execute("select playerId, name, allianceId from players where players.playerid = "+player.playerId)
+        select_cursor.execute("select playerId, name, allianceId from players where players.playerid = "+str(player.playerId))
         playerData = select_cursor.fetchall()
         for row in playerData:
             if(row[1] != player.playerName):
