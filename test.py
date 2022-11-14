@@ -32,7 +32,7 @@ def create_player(json_player):
     return data
 
 
-with urllib.request.urlopen("https://pr0game.com/stats.json") as url:
+with urllib.request.urlopen("https://pr0game.com/stats_Universe_1.json") as url:
     parsed_json = json.loads(url.read().decode())
     for json_player in parsed_json:
         data = create_player(json_player)
